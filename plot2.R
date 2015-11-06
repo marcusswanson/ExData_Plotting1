@@ -30,13 +30,14 @@ draw_plot <- function() {
         plotData <- filter(plotData, between(Date, as.Date("2007-02-01"), as.Date("2007-02-02")))
         plotData$Global_active_power_in_kw <- as.double(plotData$Global_active_power)/1000
         
-        ## Figure 1
+        ## Figure 2
         
-        png(filename = "plot1.png", width = 480, height = 480,
+        png(filename = "plot2.png", width = 480, height = 480,
             units = "px", pointsize = 12, bg = "white", res = NA,
             restoreConsole = TRUE)
-        hist(plotData$Global_active_power_in_kw, breaks=c(0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8), main = "Global Active Power",xlab="Global Active Power (kilowatts)", col = "RED",ylim=c(0, 1200),xaxt='n')
-        axis(side=1, at=c(0,2,4,6), labels = c(0,2,4,6))
+        
+        with(plotData, plot(DateAndTime, Global_active_power_in_kw, type = "n", xlab="", ylab="Global Active Power (kilowatts)",ylim=c(0, 6)))
+        with(plotData, lines(DateAndTime, Global_active_power_in_kw))
         dev.off()
 
 }
