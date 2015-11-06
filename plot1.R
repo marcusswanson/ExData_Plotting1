@@ -25,16 +25,18 @@ draw_plot <- function() {
         readData <- read.table("./data/zipcontents/household_power_consumption.txt", sep = ";", header=TRUE)
         
         plotData <- mutate(readData, DateAndTime = paste(Date, Time, sep = ' '))
-        plotData$DateAndTime <- as.Date(strptime(plotData$DateAndTime, format="%d/%m/%Y %H:%M:%S"))
-        plotData$Date <- as.Date(strptime(plotData$Date, format="%d/%m/%Y"))
-        plotData <- filter(plotData, Date == '2007-02-01' | Date == '2007-02-02')
+        plotData$DateAndTime <- as.Date(strptime(plotData$DateAndTime, format="%e/%m/%Y %H:%M:%S"))
+        plotData$Date <- as.Date(strptime(plotData$Date, format="%e/%m/%Y"))
+        plotData <- filter(plotData, between(DateAndTime, as.Date("2007-02-01"), as.Date("2007-02-02")))
         
         ## Figure 1
-        plotData$Global_active_power <- as.numeric(plotData$Global_active_power)
+        plotData$Global_active_power <- as.double(plotData$Global_active_power)
         
-        hist(plotData$Global_active_power/1000, breaks=c(0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8), main = "Global Active Power",xlab="Global Active Power (kilowatts)", col = "RED",ylim=c(0, 1200),xaxt='n')
+        png(filename = "plot1.png", width = 480, height = 480,
+            units = "px", pointsize = 12, bg = "white", res = NA,
+            restoreConsole = TRUE)
+        hist(plotData$Global_active_power/1000.0, breaks=c(0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8), main = "Global Active Power",xlab="Global Active Power (kilowatts)", col = "RED",ylim=c(0, 1200),xaxt='n')
         axis(side=1, at=c(0,2,4,6), labels = c(0,2,4,6))
-        dev.copy(png,'plot1.png')
         dev.off()
 
 }
