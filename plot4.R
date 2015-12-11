@@ -37,14 +37,11 @@ draw_plot4 <- function() {
         par(mfrow = c(2,2))
         with(plotData, {
 
-              plot(DateAndTime, Global_active_power, type = "n", xlab="", ylab="Global Active Power (kilowatts)",ylim=c(0, 8), axes=FALSE)
+              plot(DateAndTime, Global_active_power, type = "n", xlab="", ylab="Global Active Power",ylim=c(0, 8), axes=FALSE)
               lines(DateAndTime, Global_active_power)
               axis.POSIXct(side = 1, plotData$DateAndTime, format = "%a")
               axis(side=2, at=c(0,2,4,6))
               box(which = "plot", lty = "solid")
-              
-              plot(DateAndTime, Global_active_power, type = "n", xlab="", ylab="Global Active Power (kilowatts)",ylim=c(0, 6))
-              lines(DateAndTime, Global_active_power)
               
               plot(DateAndTime, as.double(Voltage), type = "n", xlab="datetime", ylab="Voltage")
               lines(DateAndTime, as.double(Voltage))
