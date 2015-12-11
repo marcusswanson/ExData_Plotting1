@@ -2,7 +2,7 @@ generate_plots <- function() {
         
         library(dplyr)
         
-        setwd("C:\\coursera\\exploratory-analysis-course\\week-1")
+        setwd("C:\\coursera\\exploratory-analysis-course\\week-1-project")
         
         ##library(datasets)
         

@@ -1,8 +1,8 @@
-draw_plot <- function() {
+draw_plot2 <- function() {
         
         library(dplyr)
         
-        setwd("C:\\coursera\\exploratory-data-analysis\\week-1\\project")
+        setwd("C:\\coursera\\exploratory-analysis-course\\week-1-project")
   
         ## Create the data folder
         if(!file.exists("data")) {
@@ -22,13 +22,11 @@ draw_plot <- function() {
                 unzip("./data/project.zip", exdir="./data/zipcontents")
         }
         
-        readData <- read.table("./data/zipcontents/household_power_consumption.txt", sep = ";", header=TRUE)
-        
+        readData <- read.table("./data/zipcontents/household_power_consumption.txt", sep=";", header=T, quote= "", strip.white=TRUE, stringsAsFactors = F, na.strings= "?")
         plotData <- mutate(readData, DateAndTime = paste(Date, Time, sep = ' '))
         plotData$DateAndTime <- as.POSIXct(strptime(plotData$DateAndTime, format="%e/%m/%Y %H:%M:%S"))
         plotData$Date <- as.Date(strptime(plotData$Date, format="%e/%m/%Y"))
         plotData <- filter(plotData, between(Date, as.Date("2007-02-01"), as.Date("2007-02-02")))
-        plotData$Global_active_power_in_kw <- as.double(plotData$Global_active_power)/1000
         
         ## Figure 2
         
@@ -36,8 +34,11 @@ draw_plot <- function() {
             units = "px", pointsize = 12, bg = "white", res = NA,
             restoreConsole = TRUE)
         
-        with(plotData, plot(DateAndTime, Global_active_power_in_kw, type = "n", xlab="", ylab="Global Active Power (kilowatts)",ylim=c(0, 6)))
-        with(plotData, lines(DateAndTime, Global_active_power_in_kw))
+        with(plotData, plot(DateAndTime, Global_active_power, type = "n", xlab="", ylab="Global Active Power (kilowatts)",ylim=c(0, 7.6), axes=FALSE))
+        with(plotData, lines(DateAndTime, Global_active_power))
+        axis.POSIXct(side = 1, plotData$DateAndTime, format = "%a")
+        axis(side=2, at=c(0,2,4,6))
+        box(which = "plot", lty = "solid")
         dev.off()
 
 }
